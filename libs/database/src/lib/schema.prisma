@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  name         String
+  role         Role      @default(USER)
+  posts        Post[]
+  profile      Profile?
+  passwordHash String    @map("password_hash")
+  comments     Comment[]
+  likes        Like?
+}
+
+model Profile {
+  id     Int    @id @default(autoincrement())
+  bio    String
+  photo  String
+  sex    String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique @map("user_id")
+}
+
+model Post {
+  id         Int            @id @default(autoincrement())
+  createdAt  DateTime       @default(now()) @map("created_at")
+  updatedAt  DateTime       @updatedAt @map("updated_at")
+  title      String
+  images     String[]
+  published  Boolean        @default(false)
+  user       User           @relation(fields: [userId], references: [id])
+  userId     Int            @unique @map("user_id")
+  categories Category[]
+  comments   Comment[]
+  likes      LikesOnPosts[]
+  tags       Tag[]
+}
+
+model Tag {
+  id     Int    @id @default(autoincrement())
+  title  String
+  posts  Post   @relation(fields: [postId], references: [id])
+  postId Int
+}
+
+model Like {
+  id     Int            @id @default(autoincrement())
+  user   User           @relation(fields: [userId], references: [id])
+  userId Int            @unique @map("user_id")
+  posts  LikesOnPosts[]
+}
+
+model LikesOnPosts {
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     Int      @map("post_id")
+  Like       Like     @relation(fields: [likeId], references: [id])
+  likeId     Int      @map("like_id")
+  assignedAt DateTime @default(now())
+
+  @@id([postId, likeId])
+}
+
+model Comment {
+  id     Int    @id @default(autoincrement())
+  title  String
+  text   String
+  post   Post   @relation(fields: [postId], references: [id])
+  postId Int    @map("post_id")
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique @map("user_id")
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String
+  posts Post[]
+}
+
+enum Role {
+  USER
+  MANAGER
+  ADMIN
+}
