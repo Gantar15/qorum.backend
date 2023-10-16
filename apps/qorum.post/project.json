@@ -1,0 +1,64 @@
+{
+  "name": "qorum.post",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/qorum.post/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/qorum.post",
+        "main": "apps/qorum.post/src/main.ts",
+        "tsConfig": "apps/qorum.post/tsconfig.app.json",
+        "assets": ["apps/qorum.post/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/qorum.post/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "qorum.post:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "qorum.post:build:development"
+        },
+        "production": {
+          "buildTarget": "qorum.post:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/qorum.post/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/qorum.post/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
