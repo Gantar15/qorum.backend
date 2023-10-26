@@ -1,5 +1,5 @@
 export class CommentEntity {
-  id: number;
+  id?: number;
   title: string;
   text: string;
   createdAt: Date;
