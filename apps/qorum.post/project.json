@@ -14,7 +14,6 @@
         "outputPath": "dist/apps/qorum.post",
         "main": "apps/qorum.post/src/main.ts",
         "tsConfig": "apps/qorum.post/tsconfig.app.json",
-        "assets": ["apps/qorum.post/src/assets"],
         "isolatedConfig": true,
         "webpackConfig": "apps/qorum.post/webpack.config.js"
       },

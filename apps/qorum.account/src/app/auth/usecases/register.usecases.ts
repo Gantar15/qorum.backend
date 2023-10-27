@@ -4,6 +4,7 @@ import {
 } from '../auth.constants';
 import {
   ConflictException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -14,10 +15,12 @@ import { UserEntity } from '@qorum.backend/entities';
 
 @Injectable()
 export class RegisterUseCases {
-  constructor(private readonly userRepository: IUserRepository) {}
+  constructor(
+    @Inject(IUserRepository) private readonly userRepository: IUserRepository
+  ) {}
 
   async register(dto: RegisterDto) {
-    const oldUser = this.userRepository.findUserByEmail(dto.email);
+    const oldUser = await this.userRepository.findUserByEmail(dto.email);
     if (oldUser) {
       throw new ConflictException(ALREADY_REGISTERED_USER_ERROR);
     }

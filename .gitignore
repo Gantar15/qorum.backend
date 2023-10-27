@@ -3,6 +3,8 @@ dist
 tmp
 /out-tsc
 /envs
+.env
+/data
 
 # dependencies
 node_modules

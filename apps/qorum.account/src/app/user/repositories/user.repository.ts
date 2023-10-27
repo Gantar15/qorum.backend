@@ -1,12 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { PrismaService } from '@qorum.backend/database';
 import { IUserEntity } from '@qorum.backend/entities';
 import { IUserRepository } from './user.repository.interface';
+import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from '@qorum.backend/database';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
-  constructor(@Inject() private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async createUser(user: IUserEntity) {
     return await this.prismaService.user.create({
@@ -34,12 +34,14 @@ export class UserRepository implements IUserRepository {
       },
     });
 
-    return {
-      ...user,
-      bio: user.profile.bio,
-      photo: user.profile.photo,
-      sex: user.profile.sex,
-    };
+    if (user)
+      return {
+        ...user,
+        bio: user?.profile.bio,
+        photo: user?.profile.photo,
+        sex: user?.profile.sex,
+      };
+    else return null;
   }
 
   async deleteUserByEmail(email: string) {

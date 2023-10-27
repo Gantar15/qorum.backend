@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../repositories/user.repository';
+import { IUserRepository } from '../repositories/user.repository.interface';
+import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UserUseCases {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    @Inject(IUserRepository) private readonly userRepository: IUserRepository
+  ) {}
 }

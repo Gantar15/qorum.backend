@@ -3,6 +3,21 @@ import { RegisterUseCases } from './usecases/register.usecases';
 import { Sex, Role } from '@qorum.backend/entities';
 import { LoginUseCases } from './usecases/login.usecases';
 
+export class RegisterDto {
+  email: string;
+  name: string;
+  role: Role;
+  bio: string;
+  photo: string;
+  sex: Sex;
+  password: string;
+}
+
+export class LoginDto {
+  email: string;
+  password: string;
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -23,19 +38,4 @@ export class AuthController {
     );
     return this.loginUseCases.login(id);
   }
-}
-
-export class RegisterDto {
-  email: string;
-  name: string;
-  role: Role;
-  bio: string;
-  photo: string;
-  sex: Sex;
-  password: string;
-}
-
-export class LoginDto {
-  email: string;
-  password: string;
 }
