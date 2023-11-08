@@ -1,22 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { RegisterUseCases } from './usecases/register.usecases';
-import { Sex, Role } from '@qorum.backend/entities';
 import { LoginUseCases } from './usecases/login.usecases';
-
-export class RegisterDto {
-  email: string;
-  name: string;
-  role: Role;
-  bio: string;
-  photo: string;
-  sex: Sex;
-  password: string;
-}
-
-export class LoginDto {
-  email: string;
-  password: string;
-}
+import { AccountLogin, AccountRegister } from '@qorum.backend/contracts';
 
 @Controller('auth')
 export class AuthController {
@@ -26,12 +11,16 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(@Body() dto: RegisterDto) {
+  async register(
+    @Body() dto: AccountRegister.Request
+  ): Promise<AccountRegister.Response> {
     return this.registerUseCases.register(dto);
   }
 
   @Post('login')
-  async login(@Body() dto: LoginDto) {
+  async login(
+    @Body() dto: AccountLogin.Request
+  ): Promise<AccountLogin.Response> {
     const { id } = await this.registerUseCases.validateUser(
       dto.email,
       dto.password

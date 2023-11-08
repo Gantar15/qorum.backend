@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 
 import { IUserRepository } from '../../user/repositories/user.repository.interface';
-import { RegisterDto } from '../auth.controller';
 import { UserEntity } from '@qorum.backend/entities';
+import { AccountRegister } from '@qorum.backend/contracts';
 
 @Injectable()
 export class RegisterUseCases {
@@ -19,7 +19,7 @@ export class RegisterUseCases {
     @Inject(IUserRepository) private readonly userRepository: IUserRepository
   ) {}
 
-  async register(dto: RegisterDto) {
+  async register(dto: AccountRegister.Request) {
     const oldUser = await this.userRepository.findUserByEmail(dto.email);
     if (oldUser) {
       throw new ConflictException(ALREADY_REGISTERED_USER_ERROR);

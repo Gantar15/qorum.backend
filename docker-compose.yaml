@@ -12,6 +12,20 @@ services:
     env_file:
       - docker.env
 
+  rmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    networks:
+      - rmq-1
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
 networks:
   postgres:
+    driver: bridge
+  rmq-1:
     driver: bridge

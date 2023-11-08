@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@qorum.backend/contracts": ["libs/contracts/src/index.ts"],
       "@qorum.backend/database": ["libs/database/src/index.ts"],
       "@qorum.backend/entities": ["libs/entities/src/index.ts"],
       "@qorum.backend/interfaces": ["libs/interfaces/src/index.ts"]
