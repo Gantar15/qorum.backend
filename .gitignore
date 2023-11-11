@@ -3,7 +3,7 @@ dist
 tmp
 /out-tsc
 /envs
-.env
+*.env
 /data
 
 # dependencies

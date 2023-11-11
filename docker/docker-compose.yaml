@@ -10,19 +10,20 @@ services:
     ports:
       - '5432:5432'
     env_file:
-      - docker.env
+      - ./postgres.env
 
   rmq:
     image: rabbitmq:3-management
     restart: always
+    volumes:
+      - /data/rabbitmq:/var/lib/rabbitmq
     ports:
       - '15672:15672'
       - '5672:5672'
     networks:
       - rmq-1
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+    env_file:
+      - ./rabbitmq.env
 
 networks:
   postgres:

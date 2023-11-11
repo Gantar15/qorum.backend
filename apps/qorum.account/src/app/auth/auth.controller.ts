@@ -1,8 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller } from '@nestjs/common';
 import { RegisterUseCases } from './usecases/register.usecases';
 import { LoginUseCases } from './usecases/login.usecases';
 import { AccountLogin, AccountRegister } from '@qorum.backend/contracts';
+import { ApiTags } from '@nestjs/swagger';
+import { RMQRoute } from 'nestjs-rmq';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -10,14 +13,14 @@ export class AuthController {
     private readonly loginUseCases: LoginUseCases
   ) {}
 
-  @Post('register')
+  @RMQRoute(AccountRegister.topic)
   async register(
     @Body() dto: AccountRegister.Request
   ): Promise<AccountRegister.Response> {
     return this.registerUseCases.register(dto);
   }
 
-  @Post('login')
+  @RMQRoute(AccountLogin.topic)
   async login(
     @Body() dto: AccountLogin.Request
   ): Promise<AccountLogin.Response> {
