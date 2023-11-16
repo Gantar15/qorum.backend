@@ -2,10 +2,8 @@ import { Body, Controller } from '@nestjs/common';
 import { RegisterUseCases } from './usecases/register.usecases';
 import { LoginUseCases } from './usecases/login.usecases';
 import { AccountLogin, AccountRegister } from '@qorum.backend/contracts';
-import { ApiTags } from '@nestjs/swagger';
 import { RMQRoute } from 'nestjs-rmq';
 
-@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
