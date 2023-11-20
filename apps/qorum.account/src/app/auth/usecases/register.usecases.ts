@@ -37,9 +37,9 @@ export class RegisterUseCases {
       throw new UnauthorizedException(WRONG_CREDENTIALS);
     }
     const userEntity = new UserEntity(user);
-    const isCorrectPassword = await userEntity.validatePassword(password);
+    const isCurrectPassword = await userEntity.validatePassword(password);
 
-    if (!isCorrectPassword) {
+    if (!isCurrectPassword) {
       throw new UnauthorizedException(WRONG_CREDENTIALS);
     }
     return {

@@ -1,15 +1,6 @@
 import { compare, genSalt, hash } from 'bcrypt';
 
-export interface IUserEntity {
-  id?: number;
-  email: string;
-  name: string;
-  role: Role;
-  bio: string;
-  photo: string;
-  sex: Sex;
-  passwordHash?: string;
-}
+import { IUserEntity } from '@qorum.backend/interfaces';
 
 export class UserEntity implements IUserEntity {
   id?: number;

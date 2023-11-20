@@ -1,6 +1,8 @@
 import { IUserRepository } from './repositories/user.repository.interface';
 import { Module } from '@nestjs/common';
 import { PrismaModule } from '@qorum.backend/database';
+import { UserCommands } from './user.commands';
+import { UserQueries } from './UserQueries';
 import { UserRepository } from './repositories/user.repository';
 import { UserUseCases } from './usecases/user.usecases';
 
@@ -11,5 +13,6 @@ import { UserUseCases } from './usecases/user.usecases';
     UserUseCases,
   ],
   exports: [IUserRepository],
+  controllers: [UserCommands, UserQueries],
 })
 export class UserModule {}

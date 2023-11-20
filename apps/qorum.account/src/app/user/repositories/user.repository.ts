@@ -1,4 +1,4 @@
-import { IUserEntity } from '@qorum.backend/entities';
+import { IUserEntity } from '@qorum.backend/interfaces';
 import { IUserRepository } from './user.repository.interface';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
@@ -31,6 +31,35 @@ export class UserRepository implements IUserRepository {
       include: {
         ...populate,
         profile: true,
+      },
+    });
+
+    if (user)
+      return {
+        ...user,
+        bio: user?.profile.bio,
+        photo: user?.profile.photo,
+        sex: user?.profile.sex,
+      };
+    else return null;
+  }
+
+  async findUserById(id: number, populate?: Prisma.UserInclude) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+      // include: {
+      //   ...populate,
+      //   profile: true,
+      // },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        profile: true,
+        ...populate,
       },
     });
 

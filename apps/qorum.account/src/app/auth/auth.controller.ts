@@ -2,7 +2,7 @@ import { Body, Controller } from '@nestjs/common';
 import { RegisterUseCases } from './usecases/register.usecases';
 import { LoginUseCases } from './usecases/login.usecases';
 import { AccountLogin, AccountRegister } from '@qorum.backend/contracts';
-import { RMQRoute } from 'nestjs-rmq';
+import { RMQRoute, RMQValidate } from 'nestjs-rmq';
 
 @Controller('auth')
 export class AuthController {
@@ -11,6 +11,7 @@ export class AuthController {
     private readonly loginUseCases: LoginUseCases
   ) {}
 
+  @RMQValidate()
   @RMQRoute(AccountRegister.topic)
   async register(
     @Body() dto: AccountRegister.Request
@@ -18,6 +19,7 @@ export class AuthController {
     return this.registerUseCases.register(dto);
   }
 
+  @RMQValidate()
   @RMQRoute(AccountLogin.topic)
   async login(
     @Body() dto: AccountLogin.Request
