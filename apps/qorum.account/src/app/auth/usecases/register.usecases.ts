@@ -30,9 +30,7 @@ export class RegisterUseCases {
   }
 
   async validateUser(email: string, password: string) {
-    const user = await this.userRepository.findUserByEmail(email, {
-      profile: true,
-    });
+    const user = await this.userRepository.findUserByEmail(email);
     if (!user) {
       throw new UnauthorizedException(WRONG_CREDENTIALS);
     }

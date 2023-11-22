@@ -1,7 +1,6 @@
 import { IUserEntity } from '@qorum.backend/interfaces';
 import { IUserRepository } from './user.repository.interface';
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from '@qorum.backend/database';
 
 @Injectable()
@@ -23,13 +22,19 @@ export class UserRepository implements IUserRepository {
     });
   }
 
-  async findUserByEmail(email: string, populate?: Prisma.UserInclude) {
+  async findUserByEmail(email: string) {
     const user = await this.prismaService.user.findUnique({
       where: {
         email,
       },
-      include: {
-        ...populate,
+      // include: {
+      //   profile: true,
+      // },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
         profile: true,
       },
     });
@@ -44,7 +49,7 @@ export class UserRepository implements IUserRepository {
     else return null;
   }
 
-  async findUserById(id: number, populate?: Prisma.UserInclude) {
+  async findUserById(id: number) {
     const user = await this.prismaService.user.findUnique({
       where: {
         id,
@@ -59,7 +64,6 @@ export class UserRepository implements IUserRepository {
         name: true,
         role: true,
         profile: true,
-        ...populate,
       },
     });
 

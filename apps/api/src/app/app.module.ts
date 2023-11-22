@@ -1,3 +1,5 @@
+import * as Joi from '@hapi/joi';
+
 import { AuthController } from './controllers/auth.controller';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -13,6 +15,13 @@ import { getRMQConfig } from './configs/rmq.config';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: 'envs/api.env',
+      validationSchema: Joi.object({
+        JWT_SECRET: Joi.string().required(),
+        RMQ_EXCHANGE_NAME: Joi.string().required(),
+        RMQ_LOGIN: Joi.string().required(),
+        RMQ_PASSWORD: Joi.string().required(),
+        RMQ_HOST: Joi.string().required(),
+      }),
     }),
     JwtModule.registerAsync(getJwtConfig()),
     PassportModule,
