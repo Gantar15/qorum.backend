@@ -9,6 +9,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { RMQModule } from 'nestjs-rmq';
+import { UserController } from './controllers/user.controller';
 import { UserService } from './services/user.service';
 import { getJwtConfig } from './configs/jwt.config';
 import { getRMQConfig } from './configs/rmq.config';
@@ -31,7 +32,7 @@ import { getRMQConfig } from './configs/rmq.config';
     JwtModule.registerAsync(getJwtConfig()),
     PassportModule,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, UserController],
   providers: [UserService, AuthService, LocalStrategy, JwtStrategy],
 })
 export class AppModule {}

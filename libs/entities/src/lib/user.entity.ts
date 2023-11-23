@@ -1,6 +1,8 @@
 import { IProfile, IUserEntity } from '@qorum.backend/interfaces';
 import { compare, genSalt, hash } from 'bcrypt';
 
+import { Role } from './enums/user.enums';
+
 export class UserEntity implements IUserEntity {
   id?: number;
   email: string;
@@ -29,16 +31,3 @@ export class UserEntity implements IUserEntity {
     return compare(password, this.passwordHash);
   }
 }
-
-export const Role = {
-  USER: 'USER',
-  MANAGER: 'MANAGER',
-  ADMIN: 'ADMIN',
-} as const;
-export type Role = (typeof Role)[keyof typeof Role];
-
-export const Sex = {
-  MALE: 'MALE',
-  FEMALE: 'FEMALE',
-} as const;
-export type Sex = (typeof Sex)[keyof typeof Sex];

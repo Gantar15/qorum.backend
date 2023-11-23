@@ -14,7 +14,7 @@ export namespace AccountRegister {
   export const topic = 'account.register.command';
 
   class Profile {
-    @ApiProperty()
+    @ApiProperty({ enum: Sex })
     @IsEnum(Sex)
     sex: Sex;
 

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get } from '@nestjs/common';
 
 import { AccountGetUserById } from '@qorum.backend/contracts';
 import { ApiTags } from '@nestjs/swagger';
@@ -10,7 +10,7 @@ export class UserController {
   constructor(private readonly rmqService: RMQService) {}
 
   @Get('get-info')
-  async getInfo(id: number) {
+  async getInfo(@Body() { id }: { id: number }) {
     return this.rmqService.send<
       AccountGetUserById.Request,
       AccountGetUserById.Response
