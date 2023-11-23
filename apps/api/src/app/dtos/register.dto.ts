@@ -1,7 +1,22 @@
-import { IsEmail, IsEnum, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsString, ValidateNested } from 'class-validator';
 import { Role, Sex } from '@qorum.backend/entities';
 
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+
+class Profile {
+  @ApiProperty()
+  @IsString()
+  bio: string;
+
+  @ApiProperty()
+  @IsString()
+  photo: string;
+
+  @ApiProperty()
+  @IsEnum(Sex)
+  sex: Sex;
+}
 
 export class RegisterDto {
   @ApiProperty()
@@ -18,17 +33,10 @@ export class RegisterDto {
 
   @ApiProperty()
   @IsString()
-  bio: string;
-
-  @ApiProperty()
-  @IsString()
-  photo: string;
-
-  @ApiProperty()
-  @IsEnum(Sex)
-  sex: Sex;
-
-  @ApiProperty()
-  @IsString()
   password: string;
+
+  @ApiProperty()
+  @ValidateNested()
+  @Type(() => Profile)
+  profile: Profile;
 }

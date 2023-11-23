@@ -1,5 +1,5 @@
 import { Body, Controller, Inject } from '@nestjs/common';
-import { AccountUserInfo } from '@qorum.backend/contracts';
+import { AccountGetUserById } from '@qorum.backend/contracts';
 import { RMQRoute, RMQValidate } from 'nestjs-rmq';
 import { IUserRepository } from './repositories/user.repository.interface';
 
@@ -10,13 +10,11 @@ export class UserQueries {
   ) {}
 
   @RMQValidate()
-  @RMQRoute(AccountUserInfo.topic)
-  async userInfo(
-    @Body() { id }: AccountUserInfo.Request
-  ): Promise<AccountUserInfo.Response> {
+  @RMQRoute(AccountGetUserById.topic)
+  async getUserById(
+    @Body() { id }: AccountGetUserById.Request
+  ): Promise<AccountGetUserById.Response> {
     const user = await this.userRepository.findUserById(id);
-    return {
-      user: user,
-    };
+    return user;
   }
 }

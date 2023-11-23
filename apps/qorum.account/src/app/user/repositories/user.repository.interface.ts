@@ -1,10 +1,10 @@
-import { IUserEntity } from '@qorum.backend/interfaces';
+import { IUserEntity, IUserEntityWithId } from '@qorum.backend/interfaces';
 
 export interface IUserRepository {
-  createUser(user: IUserEntity): Promise<Partial<IUserEntity>>;
-  findUserByEmail(email: string): Promise<IUserEntity | null>;
-  findUserById(id: number): Promise<IUserEntity | null>;
-  deleteUserByEmail(email: string): Promise<Partial<IUserEntity>>;
+  createUser(user: IUserEntity): Promise<IUserEntityWithId>;
+  findUserByEmail(email: string): Promise<IUserEntityWithId | null>;
+  findUserById(id: number): Promise<IUserEntityWithId | null>;
+  deleteUserByEmail(email: string): Promise<IUserEntityWithId | null>;
 }
 
 export const IUserRepository = Symbol('IUserRepository');

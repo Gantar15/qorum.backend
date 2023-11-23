@@ -7,56 +7,44 @@ import {
 } from 'class-validator';
 import { Role, Sex } from '@qorum.backend/entities';
 
-import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
-export namespace AccountRegister {
-  export const topic = 'account.register.command';
+export namespace AccountGetUserById {
+  export const topic = 'account.get-user-by-id.query';
 
   class Profile {
-    @ApiProperty()
     @IsEnum(Sex)
     sex: Sex;
 
-    @ApiProperty()
     @IsString()
     bio: string;
 
-    @ApiProperty()
     @IsString()
     photo: string;
   }
 
   export class Request {
-    @ApiProperty()
+    @IsNumber()
+    id: number;
+  }
+
+  export class ResponseClass {
+    @IsNumber()
+    id: number;
+
     @IsEmail()
     email: string;
 
-    @ApiProperty()
     @IsString()
     name: string;
 
-    @ApiProperty()
     @IsEnum(Role)
     role: Role;
 
-    @ApiProperty()
-    @IsString()
-    password: string;
-
-    @ApiProperty()
     @ValidateNested()
     @Type(() => Profile)
     profile: Profile;
   }
 
-  export class Response {
-    @ApiProperty()
-    @IsNumber()
-    id: number;
-
-    @ApiProperty()
-    @IsEmail()
-    email: string;
-  }
+  export type Response = ResponseClass | null;
 }

@@ -1,16 +1,13 @@
+import { IProfile, IUserEntity } from '@qorum.backend/interfaces';
 import { compare, genSalt, hash } from 'bcrypt';
-
-import { IUserEntity } from '@qorum.backend/interfaces';
 
 export class UserEntity implements IUserEntity {
   id?: number;
   email: string;
   name: string;
   role: Role;
-  bio: string;
-  photo: string;
-  sex: Sex;
   passwordHash?: string;
+  profile: IProfile;
 
   constructor(object: IUserEntity) {
     this.passwordHash = object.passwordHash;
@@ -18,9 +15,7 @@ export class UserEntity implements IUserEntity {
     this.email = object.email;
     this.name = object.name;
     this.role = object.role;
-    this.bio = object.bio;
-    this.photo = object.photo;
-    this.sex = object.sex;
+    this.profile = object.profile;
   }
 
   public async setPassword(password: string) {

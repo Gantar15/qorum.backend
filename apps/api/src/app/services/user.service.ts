@@ -1,17 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-
 import { AccountGetUserById } from '@qorum.backend/contracts';
-import { ApiTags } from '@nestjs/swagger';
+import { Injectable } from '@nestjs/common';
 import { RMQService } from 'nestjs-rmq';
 
-@ApiTags('user')
-@Controller('user')
-export class UserController {
+@Injectable()
+export class UserService {
   constructor(private readonly rmqService: RMQService) {}
 
-  @Get('get-info')
-  async getInfo(id: number) {
-    return this.rmqService.send<
+  async getUserById(id: number) {
+    return await this.rmqService.send<
       AccountGetUserById.Request,
       AccountGetUserById.Response
     >(AccountGetUserById.topic, { id });

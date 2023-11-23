@@ -10,14 +10,16 @@ export class UserRepository implements IUserRepository {
   async createUser(user: IUserEntity) {
     return await this.prismaService.user.create({
       data: {
-        id: user.id,
         email: user.email,
         name: user.name,
         role: user.role,
         passwordHash: user.passwordHash,
         profile: {
-          create: { bio: user.bio, photo: user.photo, sex: user.sex },
+          create: user.profile,
         },
+      },
+      include: {
+        profile: true,
       },
     });
   }
@@ -27,9 +29,6 @@ export class UserRepository implements IUserRepository {
       where: {
         email,
       },
-      // include: {
-      //   profile: true,
-      // },
       select: {
         id: true,
         email: true,
@@ -39,13 +38,7 @@ export class UserRepository implements IUserRepository {
       },
     });
 
-    if (user)
-      return {
-        ...user,
-        bio: user?.profile.bio,
-        photo: user?.profile.photo,
-        sex: user?.profile.sex,
-      };
+    if (user) return user;
     else return null;
   }
 
@@ -54,10 +47,6 @@ export class UserRepository implements IUserRepository {
       where: {
         id,
       },
-      // include: {
-      //   ...populate,
-      //   profile: true,
-      // },
       select: {
         id: true,
         email: true,
@@ -67,21 +56,21 @@ export class UserRepository implements IUserRepository {
       },
     });
 
-    if (user)
-      return {
-        ...user,
-        bio: user?.profile.bio,
-        photo: user?.profile.photo,
-        sex: user?.profile.sex,
-      };
+    if (user) return user;
     else return null;
   }
 
   async deleteUserByEmail(email: string) {
-    return this.prismaService.user.delete({
+    const user = await this.findUserByEmail(email);
+    if (!user) return null;
+    await this.prismaService.user.delete({
       where: {
         email,
       },
+      include: {
+        profile: true,
+      },
     });
+    return user;
   }
 }
