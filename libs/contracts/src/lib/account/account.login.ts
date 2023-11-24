@@ -19,5 +19,9 @@ export namespace AccountLogin {
     @ApiProperty()
     @IsString()
     access_token: string;
+
+    @ApiProperty()
+    @IsString()
+    refresh_token: string;
   }
 }

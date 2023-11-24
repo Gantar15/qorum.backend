@@ -14,7 +14,10 @@ import { getRMQConfig } from './configs/rmq.config';
       isGlobal: true,
       envFilePath: 'envs/account.env',
       validationSchema: Joi.object({
-        JWT_SECRET: Joi.string().required(),
+        JWT_ACCESS_TOKEN_SECRET: Joi.string().required(),
+        JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),
+        JWT_ACCESS_TOKEN_EXPIRATION_TIME: Joi.number().required(),
+        JWT_REFRESH_TOKEN_EXPIRATION_TIME: Joi.number().required(),
         RMQ_EXCHANGE_NAME: Joi.string().required(),
         RMQ_QUEUE_NAME: Joi.string().required(),
         RMQ_LOGIN: Joi.string().required(),

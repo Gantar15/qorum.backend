@@ -1,7 +1,7 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 
-import { ACCESS_TOKEN_NAME } from '../constants/jwt.constants';
+import { ACCESS_TOKEN_KEY } from '../constants/jwt.constants';
 import { IJWTPayload } from '@qorum.backend/interfaces';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
@@ -22,13 +22,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   static extractJWT(request: Request) {
-    return request?.cookies?.[ACCESS_TOKEN_NAME];
+    return request?.cookies?.[ACCESS_TOKEN_KEY];
   }
 
   async validate({ id }: IJWTPayload) {
     const user = await this.userService.getUserById(id);
 
-    if (!user) throw new UnauthorizedException(USER_WAS_NOT_FOUND);
+    if (!user) throw new ForbiddenException(USER_WAS_NOT_FOUND);
     return { id };
   }
 }

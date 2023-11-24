@@ -38,6 +38,6 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response
   ) {
     const userId = req.user.id;
-    return this.authService.logout(res, userId);
+    this.authService.logout(res, userId);
   }
 }

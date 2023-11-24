@@ -1,4 +1,4 @@
-import { IUserEntity } from '@qorum.backend/interfaces';
+import { IUserEntity } from '@qorum.backend/entities';
 import { IUserRepository } from './user.repository.interface';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@qorum.backend/database';

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,15 +14,23 @@ datasource db {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  email        String    @unique
+  id           Int         @id @default(autoincrement())
+  email        String      @unique
   name         String
-  role         Role      @default(USER)
-  passwordHash String    @map("password_hash")
+  role         Role        @default(USER)
+  passwordHash String      @map("password_hash")
   profile      Profile?
   posts        Post[]
   comments     Comment[]
   likes        Like[]
+  userTokens   UserToken[]
+}
+
+model UserToken {
+  id        Int    @id @default(autoincrement())
+  userId    Int    @map("user_id")
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String @unique @map("token_hash")
 }
 
 model Profile {

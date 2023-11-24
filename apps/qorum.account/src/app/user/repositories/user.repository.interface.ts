@@ -1,4 +1,4 @@
-import { IUserEntity, IUserEntityWithId } from '@qorum.backend/interfaces';
+import { IUserEntity, IUserEntityWithId } from '@qorum.backend/entities';
 
 export interface IUserRepository {
   createUser(user: IUserEntity): Promise<IUserEntityWithId>;
